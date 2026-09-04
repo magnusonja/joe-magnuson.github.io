@@ -47,14 +47,13 @@
             margin: 0 auto;
         }
 
-        /* Navigation */
-
         header {
             border-bottom: 1px solid var(--border);
             background: rgba(11, 17, 32, 0.95);
             position: sticky;
             top: 0;
             z-index: 100;
+            backdrop-filter: blur(8px);
         }
 
         .nav-container {
@@ -85,8 +84,6 @@
         nav a:hover {
             color: var(--blue-light);
         }
-
-        /* Hero */
 
         .hero {
             padding: 110px 0 100px;
@@ -134,8 +131,6 @@
             border-radius: 999px;
         }
 
-        /* Sections */
-
         section {
             padding: 90px 0;
         }
@@ -153,8 +148,6 @@
             color: var(--text-muted);
             max-width: 650px;
         }
-
-        /* Projects */
 
         .projects-grid {
             display: grid;
@@ -209,7 +202,9 @@
             margin-top: auto;
         }
 
-        /* About */
+        .project-link {
+            cursor: pointer;
+        }
 
         #about {
             background: #0e1627;
@@ -226,8 +221,6 @@
             font-size: 1.05rem;
             margin-bottom: 18px;
         }
-
-        /* Contact */
 
         .contact-content {
             max-width: 700px;
@@ -255,16 +248,12 @@
             color: white;
         }
 
-        /* Footer */
-
         footer {
             border-top: 1px solid var(--border);
             padding: 28px 0;
             color: var(--text-muted);
             font-size: 0.85rem;
         }
-
-        /* Responsive */
 
         @media (max-width: 800px) {
             .projects-grid {
@@ -315,12 +304,12 @@
 
     <header>
         <div class="container nav-container">
-            <a href="#top" class="logo">Joseph Magnuson</a>
+            <a href="index.html#top" class="logo">Joseph Magnuson</a>
 
             <nav>
-                <a href="#projects">Projects</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
+                <a href="index.html#projects">Projects</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
             </nav>
         </div>
     </header>
@@ -361,14 +350,15 @@
 
                 <div class="projects-grid">
 
-                    <article class="project-card">
+                    <a href="zomato.html" class="project-card project-link">
                         <div class="project-number">01</div>
                         <h3>Zomato Restaurant Performance Analysis</h3>
                         <div class="project-tool">TABLEAU</div>
                         <p>
-                            Project description coming soon.
+                            Examining restaurant performance across revenue,
+                            cost, ratings, cuisine, orders, and location.
                         </p>
-                    </article>
+                    </a>
 
                     <article class="project-card">
                         <div class="project-number">02</div>
@@ -430,4 +420,3 @@
 
 </body>
 </html>
-
