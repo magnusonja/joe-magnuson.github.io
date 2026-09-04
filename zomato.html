@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Zomato Restaurant Performance Analysis | Joseph Magnuson</title>
+
+    <style>
+        :root {
+            --background: #0b1120;
+            --surface: #111827;
+            --surface-light: #172033;
+            --text: #f3f4f6;
+            --text-muted: #a7b0c0;
+            --blue: #3b82f6;
+            --blue-light: #60a5fa;
+            --teal: #2dd4bf;
+            --border: #243047;
+            --max-width: 1100px;
+            --reading-width: 820px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(90%, var(--max-width));
+            margin: 0 auto;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border);
+            background: rgba(11, 17, 32, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+
+        .nav-container {
+            min-height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--blue-light);
+        }
+
+        .case-hero {
+            padding: 100px 0 80px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .case-hero-content {
+            max-width: var(--reading-width);
+        }
+
+        .eyebrow {
+            color: var(--blue-light);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .case-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.4rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            margin-bottom: 18px;
+        }
+
+        .meta {
+            color: var(--teal);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+
+        .case-hero h2 {
+            color: var(--text);
+            font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .case-hero p {
+            color: var(--text-muted);
+            font-size: 1.08rem;
+            max-width: 760px;
+        }
+
+        .hero-accent {
+            width: 70px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--blue), var(--teal));
+            margin-top: 32px;
+            border-radius: 999px;
+        }
+
+        .case-section {
+            padding: 76px 0;
+        }
+
+        .reading {
+            max-width: var(--reading-width);
+            margin: 0 auto;
+        }
+
+        .reading h2 {
+            font-size: 2rem;
+            line-height: 1.25;
+            margin-bottom: 26px;
+        }
+
+        .reading h3 {
+            font-size: 1.45rem;
+            line-height: 1.3;
+            margin: 42px 0 18px;
+        }
+
+        .reading p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 22px;
+        }
+
+        .reading strong {
+            color: var(--text);
+        }
+
+        .question {
+            margin: 30px 0;
+            padding: 24px 26px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--blue);
+            border-radius: 10px;
+        }
+
+        .question p {
+            color: var(--text);
+            margin: 0;
+            font-size: 1.12rem;
+            font-weight: 700;
+        }
+
+        .dashboard-section {
+            padding: 20px 0 84px;
+        }
+
+        .dashboard-wrap {
+            width: min(96%, 1200px);
+            margin: 0 auto;
+        }
+
+        .dashboard-heading {
+            max-width: var(--reading-width);
+            margin: 0 auto 28px;
+        }
+
+        .dashboard-heading h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-heading p {
+            color: var(--text-muted);
+        }
+
+        .dashboard-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            overflow: hidden;
+        }
+
+        .dashboard-card img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 7px;
+        }
+
+        .dashboard-caption {
+            max-width: var(--reading-width);
+            margin: 16px auto 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .callout {
+            margin: 34px 0;
+            padding: 28px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .callout-label {
+            color: var(--blue-light);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .callout h3 {
+            margin: 0 0 10px;
+            font-size: 1.65rem;
+        }
+
+        .callout p {
+            margin: 0;
+        }
+
+        .arc {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 28px;
+        }
+
+        .arc span {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            color: var(--text-muted);
+            background: var(--surface);
+            font-size: 0.88rem;
+        }
+
+        .back-link-wrap {
+            padding: 0 0 90px;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 11px 18px;
+            border: 1px solid var(--blue);
+            border-radius: 8px;
+            color: var(--blue-light);
+            font-weight: 700;
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .back-link:hover {
+            background: var(--blue);
+            color: white;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 28px 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 800px) {
+            .case-hero {
+                padding: 78px 0 64px;
+            }
+
+            .case-section {
+                padding: 62px 0;
+            }
+
+            .dashboard-section {
+                padding-bottom: 68px;
+            }
+
+            .nav-container {
+                min-height: 64px;
+            }
+
+            nav {
+                gap: 16px;
+            }
+
+            .dashboard-wrap {
+                width: 94%;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .nav-container {
+                flex-direction: column;
+                justify-content: center;
+                gap: 8px;
+                padding: 14px 0;
+            }
+
+            nav {
+                gap: 18px;
+            }
+
+            .case-hero h1 {
+                font-size: 2.75rem;
+            }
+
+            .case-hero h2 {
+                font-size: 1.55rem;
+            }
+
+            .reading h2 {
+                font-size: 1.8rem;
+            }
+
+            .reading h3 {
+                font-size: 1.3rem;
+                margin-top: 34px;
+            }
+
+            .reading p {
+                font-size: 1rem;
+            }
+
+            .question,
+            .callout {
+                padding: 20px;
+            }
+
+            .dashboard-card {
+                padding: 6px;
+                border-radius: 10px;
+            }
+
+            .dashboard-caption {
+                font-size: 0.82rem;
+            }
+
+            .back-link-wrap {
+                padding-bottom: 70px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container nav-container">
+            <a href="index.html#top" class="logo">Joseph Magnuson</a>
+
+            <nav>
+                <a href="index.html#projects">Projects</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <section class="case-hero">
+            <div class="container">
+                <div class="case-hero-content">
+
+                    <div class="eyebrow">Business Intelligence Case Study</div>
+
+                    <h1>Zomato Restaurant Performance Analysis</h1>
+
+                    <div class="meta">Tableau · April 2026</div>
+
+                    <h2>When the data disagrees with your expectations</h2>
+
+                    <p>
+                        I chose restaurant performance because it gave me a more
+                        complex problem than simply analyzing sales or customers.
+                        I wanted to examine performance from multiple angles, see
+                        whether high-performing restaurants shared identifiable
+                        characteristics, and determine whether those patterns could
+                        potentially inform lower-performing restaurants.
+                    </p>
+
+                    <div class="hero-accent"></div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <p>
+                    It also gave me an opportunity to work outside a market I already
+                    understood. The dataset was centered on India, so I had to adapt
+                    my business instincts to an unfamiliar context rather than rely
+                    on assumptions about the market.
+                </p>
+
+                <div class="question">
+                    <p>
+                        “What differentiates high-performing restaurants from
+                        low-performing restaurants, and what aspects of their
+                        success could potentially be used to improve the low-performers?”
+                    </p>
+                </div>
+
+                <p>
+                    I expected the analysis to reveal some common characteristics
+                    among the strongest performers.
+                </p>
+
+                <p>
+                    It didn't.
+                </p>
+
+                <p>
+                    And that turned out to be the most valuable part of the project.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <h2>The investigation</h2>
+
+                <p>
+                    The project requirements provided the initial framework, but I
+                    treated each visualization as another question rather than a box
+                    to check.
+                </p>
+
+                <p>
+                    I started by looking at revenue by cuisine, then moved through
+                    restaurant-level performance, ratings, cost categories, location,
+                    and the relationship between revenue and order volume.
+                </p>
+
+                <p>
+                    At each stage, I asked:
+                </p>
+
+                <div class="question">
+                    <p>“What does this contribute to the whole picture?”</p>
+                </div>
+
+                <p>
+                    That kept the analysis moving without allowing curiosity to turn
+                    into an endless collection of charts.
+                </p>
+
+                <p>
+                    I was looking for a pattern I could use to explain why some
+                    restaurants were outperforming others.
+                </p>
+
+                <p>
+                    Instead, the data kept complicating that idea.
+                </p>
+
+                <p>
+                    Then one visualization changed the direction of the analysis.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="dashboard-section">
+            <div class="dashboard-wrap">
+
+                <div class="dashboard-heading">
+                    <h2>From analysis to the dashboard</h2>
+                    <p>
+                        The dashboard brought the investigation together across
+                        cost, restaurant performance, cuisine, ratings, orders,
+                        and location.
+                    </p>
+                </div>
+
+                <div class="dashboard-card">
+                    <img
+                        src="assets/images/zomato-dashboard.png"
+                        alt="Zomato Restaurant Analysis dashboard showing revenue drivers and performance insights"
+                    >
+                </div>
+
+                <p class="dashboard-caption">
+                    Tableau dashboard: Zomato Restaurant Analysis – Revenue Drivers
+                    and Performance Insights.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <h2>The finding that changed the analysis</h2>
+
+                <div class="callout">
+                    <div class="callout-label">Strongest finding</div>
+                    <h3>₹923.6M in revenue came from the low-cost category</h3>
+                    <p>
+                        Within this dataset, revenue was overwhelmingly concentrated
+                        in the low-cost category.
+                    </p>
+                </div>
+
+                <p>
+                    I expected the mid-cost category to contribute substantially more
+                    revenue and order volume than the low-cost category.
+                </p>
+
+                <p>
+                    The data showed the opposite.
+                </p>
+
+                <p>
+                    Low-cost restaurants generated ₹923.6 million, 95.8% of the
+                    total revenue represented in the dataset.
+                </p>
+
+                <p>
+                    The visualization made the difference difficult to miss: the
+                    low-cost category appeared as an enormous pillar while the other
+                    categories were comparatively tiny.
+                </p>
+
+                <p>
+                    That was not what I expected to find.
+                </p>
+
+                <p>
+                    More importantly, it was too large a pattern to simply dismiss.
+                </p>
+
+                <p>
+                    The appropriate conclusion was not that low-cost restaurants
+                    cause higher revenue, nor that this represents the entire Indian
+                    restaurant market. The dataset cannot support either claim.
+                </p>
+
+                <p>
+                    What it does support is much more precise:
+                </p>
+
+                <div class="question">
+                    <p>
+                        “Within this dataset, revenue was overwhelmingly concentrated
+                        in the low-cost category.”
+                    </p>
+                </div>
+
+                <p>
+                    That changed the analytical emphasis of the project.
+                </p>
+
+                <p>
+                    Rather than forcing the data to answer the original question in
+                    the way I expected, I allowed the strongest evidence to determine
+                    what deserved attention.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <h2>What else the data revealed</h2>
+
+                <h3>Domino's as an outlier</h3>
+
+                <p>
+                    The restaurant-level analysis produced another striking result:
+                    Domino's Pizza was an extreme revenue outlier, generating roughly
+                    $5.0 million in the dashboard.
+                </p>
+
+                <p>
+                    The gap between Domino's and the other leading restaurants was
+                    substantial enough to warrant attention, but an outlier is not
+                    automatically an explanation.
+                </p>
+
+                <p>
+                    Its presence tells us that something about that restaurant's
+                    performance is unusual within the dataset.
+                </p>
+
+                <p>
+                    It does not tell us why.
+                </p>
+
+                <h3>Ratings did not provide a simple explanation</h3>
+
+                <p>
+                    Ratings were another tempting explanation.
+                </p>
+
+                <p>
+                    A reasonable assumption might be that restaurants with stronger
+                    ratings would consistently generate more revenue.
+                </p>
+
+                <p>
+                    The data did not show a strong, simple relationship.
+                </p>
+
+                <p>
+                    That doesn't make ratings irrelevant. It means that rating alone
+                    did not explain the performance differences visible in this dataset.
+                </p>
+
+                <p>
+                    This was another example of the analysis becoming more useful by
+                    ruling out overly simple explanations.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <h2>The dashboard as communication</h2>
+
+                <p>
+                    The dashboard brought the investigation together:
+                </p>
+
+                <p>
+                    <strong>Revenue by Cost Category:</strong> Strongest finding,
+                    with overwhelming concentration in the low-cost category.
+                </p>
+
+                <p>
+                    <strong>Top Restaurants by Revenue:</strong> Domino's outlier
+                    demonstrated how dramatically individual restaurant performance
+                    could differ.
+                </p>
+
+                <p>
+                    <strong>Top 10 Cuisines by Revenue:</strong> Cuisine revealed
+                    areas of revenue concentration without establishing causation.
+                </p>
+
+                <p>
+                    <strong>Ratings vs. Revenue:</strong> The relationship was
+                    limited rather than strongly predictive.
+                </p>
+
+                <p>
+                    <strong>Revenue vs. Orders:</strong> Performance could not be
+                    reduced to order volume alone.
+                </p>
+
+                <p>
+                    <strong>Revenue by Location:</strong> Geographic variation was
+                    visible, while data-quality issues required caution in interpretation.
+                </p>
+
+                <p>
+                    The dashboard therefore became more than a collection of required
+                    visualizations.
+                </p>
+
+                <p>
+                    It became the communication layer between the analysis and the
+                    decision-maker: a way to move from what happened to what deserves
+                    further investigation.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <h2>What I would and wouldn't conclude</h2>
+
+                <p>
+                    The strongest result in this project is also the one that requires
+                    the most restraint.
+                </p>
+
+                <p>
+                    The dataset shows an extraordinary concentration of revenue in the
+                    low-cost category. That is a meaningful signal.
+                </p>
+
+                <p>
+                    But the dataset does not contain enough information to explain the
+                    entire reason behind that concentration.
+                </p>
+
+                <p>
+                    Important variables such as promotions, seasonality, competition,
+                    logistics, campaigns, expenses, and broader financial performance
+                    were either unavailable or outside the scope of the analysis.
+                </p>
+
+                <p>
+                    That means the analysis can identify patterns worth investigating,
+                    but it cannot establish the underlying causes of those patterns.
+                </p>
+
+                <p>
+                    For me, that distinction is part of the result.
+                </p>
+
+                <p>
+                    A useful analysis is not one that explains everything. It is one
+                    that clearly separates what the evidence demonstrates from what
+                    still needs to be investigated.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <h2>What I took from the project</h2>
+
+                <p>
+                    This project started with an expectation that high-performing
+                    restaurants would reveal a recognizable formula.
+                </p>
+
+                <p>
+                    Instead, the data challenged that assumption.
+                </p>
+
+                <p>
+                    That was a better outcome.
+                </p>
+
+                <p>
+                    It reinforced something I want to carry into every analysis:
+                </p>
+
+                <div class="question">
+                    <p>
+                        “Assumptions and hypotheses are useful starting points.
+                        Evidence should determine where the analysis ends.”
+                    </p>
+                </div>
+
+                <p>
+                    The project also tested something beyond my technical ability.
+                </p>
+
+                <p>
+                    I deliberately chose a more complex analytical framing because I
+                    wanted to see whether I could investigate several dimensions without
+                    letting curiosity take over the project. Once the strongest finding
+                    emerged, I had to recognize that it was strong enough to shape the
+                    story without endlessly adding more analysis in search of a cleaner answer.
+                </p>
+
+                <p>
+                    That balance is the part of this project I value most: curiosity
+                    without losing scope, business judgment without forcing a conclusion,
+                    and analysis without overstating what the data can prove.
+                </p>
+
+                <h3>The analytical arc</h3>
+
+                <div class="arc">
+                    <span>Complexity</span>
+                    <span>Curiosity</span>
+                    <span>Investigation</span>
+                    <span>Contradiction</span>
+                    <span>Discovery</span>
+                    <span>Restraint</span>
+                    <span>Communication</span>
+                </div>
+
+                <p style="margin-top: 30px;">
+                    The data didn't give me the answer I expected.
+                </p>
+
+                <p>
+                    It gave me a better question.
+                </p>
+
+            </div>
+        </section>
+
+        <div class="container back-link-wrap">
+            <a href="index.html#projects" class="back-link">
+                ← Back to Projects
+            </a>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Joseph Magnuson</p>
+        </div>
+    </footer>
+
+</body>
+</html>
