@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shopify App Marketplace Analysis | Joseph Magnuson</title>
+
+    <style>
+        :root {
+            --background: #0b1120;
+            --surface: #111827;
+            --surface-light: #172033;
+            --text: #f3f4f6;
+            --text-muted: #a7b0c0;
+            --blue: #3b82f6;
+            --blue-light: #60a5fa;
+            --teal: #2dd4bf;
+            --border: #243047;
+            --max-width: 1100px;
+            --reading-width: 820px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(90%, var(--max-width));
+            margin: 0 auto;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border);
+            background: rgba(11, 17, 32, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+
+        .nav-container {
+            min-height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--blue-light);
+        }
+
+        .case-hero {
+            padding: 100px 0 80px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .case-hero-content {
+            max-width: var(--reading-width);
+        }
+
+        .eyebrow {
+            color: var(--blue-light);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .case-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.4rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            margin-bottom: 18px;
+        }
+
+        .meta {
+            color: var(--teal);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+
+        .case-hero h2 {
+            color: var(--text);
+            font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .case-hero p {
+            color: var(--text-muted);
+            font-size: 1.08rem;
+            max-width: 760px;
+        }
+
+        .hero-accent {
+            width: 70px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--blue), var(--teal));
+            margin-top: 32px;
+            border-radius: 999px;
+        }
+
+        .case-section {
+            padding: 76px 0;
+        }
+
+        .reading {
+            max-width: var(--reading-width);
+            margin: 0 auto;
+        }
+
+        .reading h2 {
+            font-size: 2rem;
+            line-height: 1.25;
+            margin-bottom: 26px;
+        }
+
+        .reading h3 {
+            font-size: 1.45rem;
+            line-height: 1.3;
+            margin: 42px 0 18px;
+        }
+
+        .reading p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 22px;
+        }
+
+        .reading strong {
+            color: var(--text);
+        }
+
+        .reading ul {
+            color: var(--text-muted);
+            margin: 0 0 28px 24px;
+        }
+
+        .reading li {
+            margin-bottom: 10px;
+        }
+
+        .question {
+            margin: 30px 0;
+            padding: 24px 26px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--blue);
+            border-radius: 10px;
+        }
+
+        .question p {
+            color: var(--text);
+            margin: 0;
+            font-size: 1.12rem;
+            font-weight: 700;
+        }
+
+        .dashboard-section {
+            padding: 20px 0 84px;
+        }
+
+        .dashboard-wrap {
+            width: min(96%, 1200px);
+            margin: 0 auto;
+        }
+
+        .dashboard-heading {
+            max-width: var(--reading-width);
+            margin: 0 auto 28px;
+        }
+
+        .dashboard-heading h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-heading p {
+            color: var(--text-muted);
+        }
+
+        .dashboard-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            overflow: hidden;
+        }
+
+        .dashboard-card img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 7px;
+        }
+
+        .dashboard-caption {
+            max-width: var(--reading-width);
+            margin: 16px auto 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .callout {
+            margin: 34px 0;
+            padding: 28px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .callout-label {
+            color: var(--blue-light);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .callout h3 {
+            margin: 0 0 10px;
+            font-size: 1.65rem;
+        }
+
+        .callout p {
+            margin: 0;
+        }
+
+        .arc {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 28px;
+        }
+
+        .arc span {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            color: var(--text-muted);
+            background: var(--surface);
+            font-size: 0.88rem;
+        }
+
+        .back-link-wrap {
+            padding: 0 0 90px;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 11px 18px;
+            border: 1px solid var(--blue);
+            border-radius: 8px;
+            color: var(--blue-light);
+            font-weight: 700;
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .back-link:hover {
+            background: var(--blue);
+            color: white;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 28px 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 800px) {
+
+            .case-hero {
+                padding: 78px 0 64px;
+            }
+
+            .case-section {
+                padding: 62px 0;
+            }
+
+            .dashboard-section {
+                padding-bottom: 68px;
+            }
+
+            .nav-container {
+                min-height: 64px;
+            }
+
+            nav {
+                gap: 16px;
+            }
+
+            .dashboard-wrap {
+                width: 94%;
+            }
+        }
+
+        @media (max-width: 520px) {
+
+            .nav-container {
+                flex-direction: column;
+                justify-content: center;
+                gap: 8px;
+                padding: 14px 0;
+            }
+
+            nav {
+                gap: 18px;
+            }
+
+            .case-hero h1 {
+                font-size: 2.75rem;
+            }
+
+            .case-hero h2 {
+                font-size: 1.55rem;
+            }
+
+            .reading h2 {
+                font-size: 1.8rem;
+            }
+
+            .reading h3 {
+                font-size: 1.3rem;
+                margin-top: 34px;
+            }
+
+            .reading p {
+                font-size: 1rem;
+            }
+
+            .question,
+            .callout {
+                padding: 20px;
+            }
+
+            .dashboard-card {
+                padding: 6px;
+                border-radius: 10px;
+            }
+
+            .dashboard-caption {
+                font-size: 0.82rem;
+            }
+
+            .back-link-wrap {
+                padding-bottom: 70px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container nav-container">
+
+            <a href="index.html#top" class="logo">
+                Joseph Magnuson
+            </a>
+
+            <nav>
+                <a href="index.html#projects">Projects</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main>
+
+        <!-- HERO -->
+
+        <section class="case-hero">
+            <div class="container">
+
+                <div class="case-hero-content">
+
+                    <div class="eyebrow">
+                        Business Intelligence Case Study
+                    </div>
+
+                    <h1>
+                        Shopify App Marketplace Analysis
+                    </h1>
+
+                    <div class="meta">
+                        Power BI · 2026
+                    </div>
+
+                    <h2>
+                        What can ratings, reviews, and developer activity tell us about Shopify app performance?
+                    </h2>
+
+                    <p>
+                        The Shopify App Store contains thousands of apps competing
+                        for merchants' attention. Ratings and reviews provide visible
+                        signals of how users respond to those apps, but those signals
+                        do not necessarily tell the whole story.
+                    </p>
+
+                    <div class="hero-accent"></div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- INTRODUCTION -->
+
+        <section class="case-section">
+
+            <div class="reading">
+
+                <p>
+                    This analysis explored app ratings, review volume, developer
+                    response activity, and developer engagement to identify patterns
+                    that could help distinguish stronger-performing apps from the
+                    rest of the marketplace.
+                </p>
+
+                <p>
+                    The goal was not simply to identify the apps with the highest
+                    ratings. It was to investigate
+                    <strong>what the available data could actually tell us about
+                    app performance—and where it could not.</strong>
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- THE INVESTIGATION -->
+
+        <section class="case-section">
+
+            <div class="reading">
+
+                <h2>The Investigation</h2>
+
+                <p>
+                    I began by examining the relationship between
+                    <strong>average app rating and review volume.</strong>
+                </p>
+
+                <p>
+                    A reasonable assumption was that apps with larger numbers of
+                    reviews might also have stronger ratings. More reviews could
+                    indicate greater adoption, while consistently high ratings could
+                    indicate that the app is meeting user expectations.
+                </p>
+
+                <p>
+                    The data did not provide a clear confirmation of that assumption.
+                </p>
+
+                <p>
+                    The scatterplot showed a strong concentration of apps with
+                    <strong>high average ratings but relatively low review counts.</strong>
+                    Apps with large numbers of reviews were more dispersed across
+                    the rating range rather than consistently occupying the
+                    highest-rating area.
+                </p>
+
+                <div class="question">
+
+                    <p>
+                        This suggested that review volume and rating are not simply
+                        two sides of the same success story.
+                    </p>
+
+                </div>
+
+                <p>
+                    An app can maintain an excellent rating without generating a
+                    large volume of reviews, while an app with substantial review
+                    activity does not automatically maintain a higher rating.
+                </p>
+
+                <p>
+                    That shifted the investigation toward another question:
+                </p>
+
+                <div class="question">
+
+                    <p>
+                        “What are developers doing in response to the feedback they receive?”
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RATING VS REVIEWS -->
+
+        <section class="dashboard-section">
+
+            <div class="dashboard-wrap">
+
+                <div class="dashboard-heading">
+
+                    <h2>
+                        Rating and review volume
+                    </h2>
+
+                    <p>
+                        The relationship between average app rating and total
+                        review volume provided the first major signal in the analysis.
+                    </p>
+
+                </div>
+
+                <div class="dashboard-card">
+
+                    <img
+                        src="assets/images/shopify/shopify-rating-vs-reviews.png"
+                        alt="Shopify app average rating compared with total review volume"
+                    >
+
+                </div>
+
+                <p class="dashboard-caption">
+                    Power BI visualization: Average app rating compared with
+                    total review volume.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- DEVELOPER RESPONSE -->
+
+        <section class="case-section">
+
+            <div class="reading">
+
+                <h2>Developer Response Matters</h2>
+
+                <p>
+                    The next stage of the analysis examined developer responses
+                    to customer reviews.
+                </p>
+
+                <p>
+                    Developer engagement provides a different perspective from
+                    the rating itself. A review represents the customer's experience,
+                    while a response represents an opportunity for the developer to
+                    acknowledge feedback, address concerns, and demonstrate ongoing
+                    engagement with the user base.
+                </p>
+
+                <p>
+                    The analysis revealed meaningful variation in how actively
+                    developers responded to reviews.
+                </p>
+
+                <div class="question">
+
+                    <p>
+                        Customer sentiment and developer behavior are separate
+                        dimensions of app performance.
+                    </p>
+
+                </div>
+
+                <p>
+                    A strong rating tells us that customers generally evaluated
+                    an app positively. Developer response activity can tell us
+                    something about how actively the company is engaging with
+                    those customers.
+                </p>
+
+                <p>
+                    However, the data does not establish that responding to reviews
+                    <em>causes</em> better ratings or greater app success.
+                </p>
+
+                <p>
+                    That distinction matters.
+                </p>
+
+                <p>
+                    The analysis identifies an observable relationship worth
+                    investigating, not a causal conclusion.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESPONSE / RATING IMAGE -->
+
+        <section class="dashboard-section">
+
+            <div class="dashboard-wrap">
+
+                <div class="dashboard-heading">
+
+                    <h2>
+                        Developer response activity
+                    </h2>
+
+                    <p>
+                        Examining developer response behavior adds another
+                        dimension beyond customer ratings alone.
+                    </p>
+
+                </div>
+
+                <div class="dashboard-card">
+
+                    <img
+                        src="assets/images/shopify/shopify-developer-response-rating.png"
+                        alt="Shopify developer response activity compared with app ratings"
+                    >
+
+                </div>
+
+                <p class="dashboard-caption">
+                    Power BI visualization: Developer response activity
+                    compared with average app rating.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- DEVELOPER ACTIVITY -->
+
+        <section class="case-section">
+
+            <div class="reading">
+
+                <h2>Looking at Developer Activity</h2>
+
+                <p>
+                    I then expanded the analysis beyond individual reviews to
+                    examine developer-level activity.
+                </p>
+
+                <p>
+                    This provided additional context around how developers
+                    participate in the marketplace. Rather than treating each
+                    app as an isolated product, the analysis considered whether
+                    patterns in developer activity might help explain differences
+                    between apps.
+                </p>
+
+                <p>
+                    The data suggested that
+                    <strong>developer engagement is an important dimension to
+                    consider when evaluating app performance,</strong> but it
+                    also reinforced the limitations of using any single metric
+                    as a definition of success.
+                </p>
+
+                <div class="callout">
+
+                    <div class="callout-label">
+                        Analytical takeaway
+                    </div>
+
+                    <h3>
+                        High activity does not automatically mean high performance.
+                    </h3>
+
+                    <p>
+                        High ratings do not automatically mean high adoption.
+                        A large review count does not automatically mean a
+                        successful product.
+                    </p>
+
+                </div>
+
+                <p>
+                    Each metric describes a different part of the marketplace.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- DEVELOPER ACTIVITY IMAGE -->
+
+        <section class="dashboard-section">
+
+            <div class="dashboard-wrap">
+
+                <div class="dashboard-heading">
+
+                    <h2>
+                        Developer-level patterns
+                    </h2>
+
+                    <p>
+                        Looking across developers provides additional context
+                        around marketplace participation and engagement.
+                    </p>
+
+                </div>
+
+                <div class="dashboard-card">
+
+                    <img
+                        src="assets/images/shopify/shopify-ratings-by-developer.png"
+                        alt="Shopify app ratings by developer"
+                    >
+
+                </div>
+
+                <p class="dashboard-caption">
+                    Power BI visualization: App ratings by developer.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="dashboard-section">
+
+            <div class="dashboard-wrap">
+
+                <div class="dashboard-card">
+
+                    <img
+                        src="assets/images/shopify/shopify-response-activity-by-developer.png"
+                        alt="Shopify developer response activity by developer"
+                    >
+
+                </div>
+
+                <p class="dashboard-caption">
+                    Power BI visualization: Developer response activity
+                    by developer.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- LIMITATIONS -->
+
+        <section class="case-section">
+
+            <div class="reading">
+
+                <h2>The Data’s Limitations</h2>
+
+                <p>
+                    The most important finding from this analysis was not a
+                    single metric or ranking.
+                </p>
+
+                <p>
+                    It was the realization that
+                    <strong>success needs to be defined before the available
+                    metrics can be used to measure it.</strong>
+                </p>
+
+                <p>
+                    The dataset provides information about ratings, reviews,
+                    and developer activity. Those measures are useful, but
+                    they are not the same thing as business outcomes.
+                </p>
+
+                <p>
+                    For example, an app could have:
+                </p>
+
+                <ul>
+                    <li>
+                        A very high average rating but relatively few reviews
+                    </li>
+
+                    <li>
+                        A large number of reviews but a more moderate rating
+                    </li>
+
+                    <li>
+                        High developer response activity without evidence
+                        of greater adoption
+                    </li>
+
+                    <li>
+                        Strong customer sentiment without measurable revenue
+                        or retention data
+                    </li>
+                </ul>
+
+                <p>
+                    Without a defined success metric, it would be easy to
+                    mistake an interesting pattern for proof of business
+                    performance.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- DEFINITION OF SUCCESS -->
+
+        <section class="case-section">
+
+            <div class="reading">
+
+                <h2>The Missing Definition of Success</h2>
+
+                <p>
+                    A stronger business analysis would begin by defining what
+                    <strong>success</strong> means for the Shopify App Marketplace.
+                </p>
+
+                <p>
+                    Depending on the business objective, success could mean:
+                </p>
+
+                <ul>
+
+                    <li>
+                        Higher app adoption
+                    </li>
+
+                    <li>
+                        Greater revenue
+                    </li>
+
+                    <li>
+                        Stronger customer retention
+                    </li>
+
+                    <li>
+                        Lower churn
+                    </li>
+
+                    <li>
+                        More active users
+                    </li>
+
+                    <li>
+                        Higher conversion from listing views to installations
+                    </li>
+
+                    <li>
+                        Better long-term customer satisfaction
+                    </li>
+
+                </ul>
+
+                <p>
+                    Those measures would allow ratings, reviews, and developer
+                    activity to be evaluated in relation to an actual business
+                    outcome.
+                </p>
+
+                <div class="question">
+
+                    <p>
+                        That is the key limitation of the current dataset and
+                        also the clearest opportunity for further analysis.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FINAL TAKEAWAY -->
+
+        <section class="case-section">
+
+            <div class="reading">
+
+                <h2>Final Takeaway</h2>
+
+                <p>
+                    The analysis began with a straightforward question: do the
+                    apps receiving strong customer ratings also tend to generate
+                    more review activity? The data revealed that the relationship
+                    was less straightforward than the two metrics alone might suggest.
+                </p>
+
+                <p>
+                    Instead, the data showed that
+                    <strong>high ratings were common among apps with relatively
+                    low review counts,</strong> while review volume varied
+                    considerably across the rating range.
+                </p>
+
+                <p>
+                    The analysis also highlighted developer response and activity
+                    as meaningful dimensions of marketplace engagement, while
+                    avoiding the unsupported conclusion that developer activity
+                    directly causes better app performance.
+                </p>
+
+                <div class="callout">
+
+                    <div class="callout-label">
+                        Final takeaway
+                    </div>
+
+                    <h3>
+                        There is no single metric that adequately defines a successful Shopify app.
+                    </h3>
+
+                    <p>
+                        Ratings, reviews, and developer engagement each provide
+                        useful pieces of the picture. The next step would be
+                        connecting those signals to a clearly defined business
+                        outcome such as adoption, retention, or revenue.
+                    </p>
+
+                </div>
+
+                <p>
+                    That is where the analysis could move from describing
+                    marketplace behavior to supporting an actual business decision.
+                </p>
+
+                <div class="arc">
+
+                    <span>Ratings</span>
+                    <span>Reviews</span>
+                    <span>Developer Response</span>
+                    <span>Developer Activity</span>
+                    <span>Business Outcomes</span>
+                    <span>Analytical Restraint</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- BACK TO PORTFOLIO -->
+
+        <div class="container back-link-wrap">
+
+            <a href="index.html#projects" class="back-link">
+                ← Back to Projects
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        <div class="container">
+
+            <p>
+                &copy; 2026 Joseph Magnuson
+            </p>
+
+        </div>
+
+    </footer>
+
+</body>
+</html>
