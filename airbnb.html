@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Airbnb Market Demand Analysis | Joseph Magnuson</title>
+
+    <style>
+        :root {
+            --background: #0b1120;
+            --surface: #111827;
+            --surface-light: #172033;
+            --text: #f3f4f6;
+            --text-muted: #a7b0c0;
+            --blue: #3b82f6;
+            --blue-light: #60a5fa;
+            --teal: #2dd4bf;
+            --border: #243047;
+            --max-width: 1100px;
+            --reading-width: 820px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(90%, var(--max-width));
+            margin: 0 auto;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border);
+            background: rgba(11, 17, 32, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+
+        .nav-container {
+            min-height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--blue-light);
+        }
+
+        .case-hero {
+            padding: 100px 0 80px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .case-hero-content {
+            max-width: var(--reading-width);
+        }
+
+        .eyebrow {
+            color: var(--blue-light);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .case-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.4rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            margin-bottom: 18px;
+        }
+
+        .meta {
+            color: var(--teal);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+
+        .case-hero h2 {
+            color: var(--text);
+            font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .case-hero p {
+            color: var(--text-muted);
+            font-size: 1.08rem;
+            max-width: 760px;
+        }
+
+        .hero-accent {
+            width: 70px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--blue), var(--teal));
+            margin-top: 32px;
+            border-radius: 999px;
+        }
+
+        .case-section {
+            padding: 76px 0;
+        }
+
+        .reading {
+            max-width: var(--reading-width);
+            margin: 0 auto;
+        }
+
+        .reading h2 {
+            font-size: 2rem;
+            line-height: 1.25;
+            margin-bottom: 26px;
+        }
+
+        .reading p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 22px;
+        }
+
+        .reading strong {
+            color: var(--text);
+        }
+
+        .question {
+            margin: 30px 0;
+            padding: 24px 26px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--blue);
+            border-radius: 10px;
+        }
+
+        .question p {
+            color: var(--text);
+            margin: 0;
+            font-size: 1.12rem;
+            font-weight: 700;
+        }
+
+        .reading ul,
+        .reading ol {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin: 0 0 26px 24px;
+        }
+
+        .reading li {
+            margin-bottom: 8px;
+            padding-left: 4px;
+        }
+
+        .callout {
+            margin: 34px 0;
+            padding: 28px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .callout-label {
+            color: var(--blue-light);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .callout h3 {
+            margin: 0 0 10px;
+            font-size: 1.65rem;
+        }
+
+        .callout p {
+            margin: 0;
+        }
+
+        .arc {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 28px;
+        }
+
+        .arc span {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            color: var(--text-muted);
+            background: var(--surface);
+            font-size: 0.88rem;
+        }
+
+        .back-link-wrap {
+            padding: 0 0 90px;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 11px 18px;
+            border: 1px solid var(--blue);
+            border-radius: 8px;
+            color: var(--blue-light);
+            font-weight: 700;
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .back-link:hover {
+            background: var(--blue);
+            color: white;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 28px 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 800px) {
+            .case-hero {
+                padding: 78px 0 64px;
+            }
+
+            .case-section {
+                padding: 62px 0;
+            }
+
+            .nav-container {
+                min-height: 64px;
+            }
+
+            nav {
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .nav-container {
+                flex-direction: column;
+                justify-content: center;
+                gap: 8px;
+                padding: 14px 0;
+            }
+
+            nav {
+                gap: 18px;
+            }
+
+            .case-hero h1 {
+                font-size: 2.75rem;
+            }
+
+            .case-hero h2 {
+                font-size: 1.55rem;
+            }
+
+            .reading h2 {
+                font-size: 1.8rem;
+            }
+
+            .reading p,
+            .reading ul,
+            .reading ol {
+                font-size: 1rem;
+            }
+
+            .question,
+            .callout {
+                padding: 20px;
+            }
+
+            .back-link-wrap {
+                padding-bottom: 70px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container nav-container">
+            <a href="index.html#top" class="logo">Joseph Magnuson</a>
+
+            <nav>
+                <a href="index.html#projects">Projects</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <section class="case-hero">
+            <div class="container">
+                <div class="case-hero-content">
+
+                    <div class="eyebrow">Business Intelligence Case Study</div>
+
+                    <h1>Airbnb Market Demand Analysis</h1>
+
+                    <div class="meta">Google Sheets · October 2025</div>
+
+                    <h2>Finding attractive opportunities in the Manhattan vacation-rental market</h2>
+
+                    <p>
+                        An early analysis of NYC Airbnb listings focused on identifying
+                        which neighborhoods and property sizes appeared most attractive
+                        for vacation rentals, then estimating the revenue potential of
+                        listings that matched those characteristics.
+                    </p>
+
+                    <div class="hero-accent"></div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <h2>The business questions</h2>
+
+                <p>
+                    The analysis was designed to answer three practical questions:
+                </p>
+
+                <ol>
+                    <li>Which neighborhoods are most attractive for vacation rentals?</li>
+                    <li>Which property sizes are most popular?</li>
+                    <li>Do different neighborhoods favor different property sizes, and what revenue potential do listings matching those characteristics show?</li>
+                </ol>
+
+                <p>
+                    Because direct occupancy data was not available, the project used
+                    reviews from the previous 12 months as a proxy for rental frequency
+                    and attractiveness.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <h2>Preparing the data</h2>
+
+                <p>
+                    Data preparation was an important part of the analysis.
+                </p>
+
+                <p>
+                    I created cleaned versions of the neighborhood and bedroom fields
+                    rather than modifying the raw data directly. Neighborhood labels
+                    were standardized to address inconsistent capitalization and
+                    trailing spaces, while blank bedroom values were converted to zero
+                    to represent studio listings.
+                </p>
+
+                <p>
+                    I also prepared the calendar data for revenue analysis by calculating
+                    revenue earned for rented nights and bringing those values back into
+                    the listings data.
+                </p>
+
+                <p>
+                    This created a cleaner foundation for the comparisons that followed.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <h2>Property size patterns</h2>
+
+                <p>
+                    The project first examined property size by number of bedrooms to
+                    understand which listing types were most common in the market.
+                </p>
+
+                <div class="callout">
+                    <div class="callout-label">Listing counts</div>
+                    <h3>1-bedroom listings led the market</h3>
+                    <p>
+                        1-bedroom: 1,265 listings · 2-bedroom: 526 listings ·
+                        Studio: 441 listings
+                    </p>
+                </div>
+
+                <p>
+                    The analysis showed that smaller property sizes, particularly
+                    1-bedroom listings and studios, were important segments of the market.
+                </p>
+
+                <p>
+                    This established the property-size patterns that would be considered
+                    alongside neighborhood attractiveness.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <h2>Neighborhood attractiveness</h2>
+
+                <p>
+                    To identify the most attractive neighborhoods, I used reviews from
+                    the previous 12 months as a proxy for rental activity.
+                </p>
+
+                <p>The top 10 neighborhoods were:</p>
+
+                <ol>
+                    <li>Lower East Side</li>
+                    <li>Hell's Kitchen</li>
+                    <li>Harlem</li>
+                    <li>Midtown</li>
+                    <li>Upper West Side</li>
+                    <li>Chelsea</li>
+                    <li>East Village</li>
+                    <li>East Harlem</li>
+                    <li>West Village</li>
+                    <li>Upper East Side</li>
+                </ol>
+
+                <p>
+                    Lower East Side, Hell's Kitchen, and Harlem ranked highest on the
+                    project's rental-activity measure. These neighborhoods became the
+                    focus of the next stage of analysis.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <h2>Neighborhood + property size fit</h2>
+
+                <p>
+                    The next step was to determine whether the most popular property
+                    size varied across the top neighborhoods.
+                </p>
+
+                <p>
+                    The analysis showed that 1-bedroom listings were the most popular
+                    size across the top neighborhoods except Midtown, where studios
+                    were the leading property size.
+                </p>
+
+                <p>
+                    This created a straightforward set of neighborhood and property-size
+                    criteria for the revenue analysis. Rather than evaluating every
+                    listing equally, I narrowed the dataset to listings that matched
+                    the identified characteristics.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <h2>Revenue potential</h2>
+
+                <p>
+                    After identifying the target neighborhoods and property sizes, I
+                    flagged listings that matched those criteria and used the calendar
+                    data to estimate revenue.
+                </p>
+
+                <p>
+                    Revenue was calculated from the nightly adjusted price for rented
+                    nights during the 30-day sample period. The project then annualized
+                    that 30-day result by multiplying it by 12.
+                </p>
+
+                <div class="callout">
+                    <div class="callout-label">Highest-earning listing</div>
+                    <h3>Listing 49946551 · $29,940</h3>
+                    <p>
+                        The listing generated $29,940 during the 30-day sample period.
+                        That corresponds to an estimated annual revenue of $359,280 if
+                        the same monthly revenue level were maintained throughout the year.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <h2>What the analysis showed</h2>
+
+                <p>
+                    The analysis pointed to a relatively concentrated set of opportunities
+                    within the Manhattan market examined.
+                </p>
+
+                <ul>
+                    <li>Lower East Side, Hell's Kitchen, and Harlem ranked highest on the project's rental-activity measure.</li>
+                    <li>1-bedroom listings were the most common property size, followed by 2-bedroom listings and studios.</li>
+                    <li>Property-size preferences were not identical across neighborhoods, with Midtown favoring studios while the other top neighborhoods favored 1-bedroom listings.</li>
+                    <li>After applying those neighborhood and property-size criteria, the analysis identified individual listings with substantial revenue during the sample period.</li>
+                </ul>
+
+                <p>
+                    The result was a descriptive analysis of the available data, not a
+                    prediction of future performance.
+                </p>
+
+            </div>
+        </section>
+
+        <section class="case-section">
+            <div class="reading">
+
+                <h2>What I took from the project</h2>
+
+                <p>
+                    This was one of my early projects working seriously with data
+                    preparation and business-oriented analysis.
+                </p>
+
+                <p>
+                    The work taught me that the quality of the answer depends heavily
+                    on the structure of the analysis that comes before it: clean the
+                    data, define the measure being used, narrow the population, and then
+                    compare the results.
+                </p>
+
+                <p>
+                    It also gave me an early opportunity to turn spreadsheet analysis
+                    into a business recommendation rather than stopping at a collection
+                    of pivot tables.
+                </p>
+
+                <p>
+                    That foundation carried forward into later projects, where the
+                    questions became more complex and the analysis moved beyond
+                    descriptive comparisons into investigating relationships between
+                    variables and communicating their limitations.
+                </p>
+
+                <div class="arc">
+                    <span>Airbnb · Early analysis</span>
+                    <span>Shopify · Better questions</span>
+                    <span>Zomato · Stronger storytelling</span>
+                    <span>Credit Risk · Continued skilling</span>
+                </div>
+
+            </div>
+        </section>
+
+        <div class="container back-link-wrap">
+            <a href="index.html#projects" class="back-link">← Back to Projects</a>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Joseph Magnuson</p>
+        </div>
+    </footer>
+
+</body>
+</html>
