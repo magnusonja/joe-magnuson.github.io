@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <meta property="og:title" content="Joseph Magnuson | Business Intelligence Analyst">
+    <meta property="og:description" content="Business Intelligence Analyst portfolio — SQL, Power BI, Tableau, and practical data analysis.">
+    <meta property="og:image" content="https://magnusonja.github.io/joe-magnuson.github.io/assets/images/portfolio-image.png">
+    <meta property="og:url" content="https://magnusonja.github.io/joe-magnuson.github.io/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Joseph Magnuson | Business Intelligence Analyst">
+    <meta name="twitter:description" content="Business Intelligence Analyst portfolio — SQL, Power BI, Tableau, and practical data analysis.">
+    <meta name="twitter:image" content="https://magnusonja.github.io/joe-magnuson.github.io/assets/images/portfolio-image.png">
+
     <title>Joseph Magnuson | Business Intelligence Analyst</title>
     <style>
         :root {
@@ -30,8 +40,10 @@
         nav { display: flex; gap: 28px; }
         nav a { color: var(--text-muted); font-size: 0.95rem; transition: color 0.2s ease; }
         nav a:hover { color: var(--blue-light); }
-        .hero { padding: 110px 0 100px; border-bottom: 1px solid var(--border); }
+        .hero { padding: 90px 0 80px; border-bottom: 1px solid var(--border); }
+        .hero-layout { display: flex; align-items: center; justify-content: space-between; gap: 60px; }
         .hero-content { max-width: 800px; }
+        .hero-image { width: 220px; height: 220px; flex: 0 0 220px; object-fit: cover; border: 1px solid var(--border); border-radius: 14px; }
         .eyebrow { color: var(--blue-light); font-size: 0.9rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 18px; }
         .hero h1 { font-size: clamp(2.8rem, 7vw, 4.5rem); line-height: 1; letter-spacing: -0.04em; margin-bottom: 22px; }
         .hero h2 { color: var(--text-muted); font-size: clamp(1.2rem, 2.5vw, 1.7rem); font-weight: 400; margin-bottom: 28px; }
@@ -59,8 +71,10 @@
         .contact-button:hover { background: var(--blue); color: white; }
         footer { border-top: 1px solid var(--border); padding: 28px 0; color: var(--text-muted); font-size: 0.85rem; }
         @media (max-width: 800px) {
+            .hero-layout { flex-direction: column-reverse; align-items: flex-start; gap: 35px; }
+            .hero-image { width: 180px; height: 180px; flex-basis: 180px; }
             .projects-grid { grid-template-columns: 1fr; }
-            .hero { padding: 80px 0; }
+            .hero { padding: 70px 0; }
             section { padding: 70px 0; }
             .nav-container { min-height: 64px; }
             nav { gap: 16px; }
@@ -87,7 +101,7 @@
 
     <main id="top">
         <section class="hero">
-            <div class="container">
+            <div class="container hero-layout">
                 <div class="hero-content">
                     <div class="eyebrow">Business Intelligence Analyst</div>
                     <h1>Joseph Magnuson</h1>
@@ -95,6 +109,7 @@
                     <p>Using data to answer questions, uncover patterns, and support better business decisions.</p>
                     <div class="hero-accent"></div>
                 </div>
+                <img class="hero-image" src="assets/images/portfolio-image.png" alt="Joseph Magnuson — Business Intelligence Analyst">
             </div>
         </section>
 
